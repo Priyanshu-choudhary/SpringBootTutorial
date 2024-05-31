@@ -43,6 +43,17 @@ public class userController {
 
     }
 
+    @PutMapping("/{username}")
+    public ResponseEntity<?>updateUserName(@RequestBody User user, @PathVariable String username){
+        User userIndb= userService.findByName(username);
+        if(userIndb!=null){
+            userIndb.setName(user.getName());
+            userIndb.setEmail(user.getEmail());
+        }
+        userService.createUser(userIndb);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable String id) {
         Optional<User>  users= userService.getUserById(id);

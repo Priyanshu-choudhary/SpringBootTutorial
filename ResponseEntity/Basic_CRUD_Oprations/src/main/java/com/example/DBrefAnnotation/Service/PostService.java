@@ -30,4 +30,6 @@ public class PostService {
     public void deleteUserById(String id) {
         postRepo.deleteById(id);
     }
+
+
 }

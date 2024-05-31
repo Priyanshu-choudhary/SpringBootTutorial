@@ -16,8 +16,7 @@ public class Posts {
     private String content;
     private String imgUrl;
 
-    @DBRef
-    private List<User> user=new ArrayList<>();
+
 
 
 }
