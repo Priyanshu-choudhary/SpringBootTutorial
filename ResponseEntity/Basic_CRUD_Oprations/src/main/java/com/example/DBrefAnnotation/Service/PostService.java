@@ -7,6 +7,7 @@ import com.example.DBrefAnnotation.Pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,8 @@ import java.util.Optional;
 public class PostService {
     @Autowired
     private PostRepo postRepo;
+    @Autowired
+    private UserService userService;
 
     public List<Posts> getAllUsers() {
         return postRepo.findAll();
@@ -23,8 +26,18 @@ public class PostService {
         return postRepo.findById(id);
     }
 
-    public Posts createUser(Posts user) {
-        return postRepo.save(user);
+    public void createUser(Posts posts,String inputuser) {
+        try{
+            User myuser = userService.findByName(inputuser);//get user
+
+            Posts saved= postRepo.save(posts);//saved in posts DB
+            myuser.getPosts().add(saved);
+
+            userService.createUser(myuser);//saved in user DB(creating ref)
+        }catch (Exception e){
+            System.out.println(e);
+            throw new RuntimeException("an error occur while saving an entry",e);
+        }
     }
 
     public void deleteUserById(String id) {
