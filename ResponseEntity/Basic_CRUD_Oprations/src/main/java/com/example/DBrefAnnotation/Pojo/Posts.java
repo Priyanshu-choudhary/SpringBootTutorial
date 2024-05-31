@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Posts {
     @Id
+    private String id;
     private String title;
     private String content;
     private String imgUrl;

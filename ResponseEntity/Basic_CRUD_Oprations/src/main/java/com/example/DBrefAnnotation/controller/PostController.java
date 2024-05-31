@@ -4,6 +4,7 @@ import com.example.DBrefAnnotation.Pojo.Posts;
 import com.example.DBrefAnnotation.Pojo.User;
 import com.example.DBrefAnnotation.Service.PostService;
 import com.example.DBrefAnnotation.Service.UserService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,14 +50,16 @@ public class PostController {
 
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable String id) {
+    @DeleteMapping("/{name}/{id}")
+    public ResponseEntity<?> deleteUserById(@PathVariable String id,@PathVariable String name) {
         Optional<Posts>  users= postService.getUserById(id);
         if (users.isPresent()) {
-            postService.deleteUserById(id);
+            postService.deleteUserById(id,name);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>( HttpStatus.NOT_FOUND);
     }
+
+
 
 }
