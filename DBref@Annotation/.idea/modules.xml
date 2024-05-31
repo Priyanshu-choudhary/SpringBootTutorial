@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Basic_CRUD_Oprations/Basic_CRUD_Oprations.iml" filepath="$PROJECT_DIR$/Basic_CRUD_Oprations/Basic_CRUD_Oprations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ResponseEntity.iml" filepath="$PROJECT_DIR$/.idea/ResponseEntity.iml" />
+    </modules>
+  </component>
+</project>
