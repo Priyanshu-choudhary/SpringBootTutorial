@@ -17,7 +17,9 @@ public class User {
     @NonNull
     private String name;
     @NonNull
-    private String email;
+    private String password;
+
+    private List<String> roles;
 
     // Getters and setters
     @DBRef

@@ -3,8 +3,11 @@ package com.example.WebSecurityExample.Service;
 import com.example.WebSecurityExample.MongoRepo.UserRepo;
 import com.example.WebSecurityExample.Pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +15,8 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepo userRepository;
+
+    private static final PasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -22,6 +27,8 @@ public class UserService {
     }
 
     public User createUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList("USER"));
         return userRepository.save(user);
     }
 
@@ -31,5 +38,10 @@ public class UserService {
 
     public User findByName(String name){
         return userRepository.findByName(name);
+    }
+
+
+    public void deleteByName(String name) {
+        userRepository.deleteByName(name);
     }
 }
