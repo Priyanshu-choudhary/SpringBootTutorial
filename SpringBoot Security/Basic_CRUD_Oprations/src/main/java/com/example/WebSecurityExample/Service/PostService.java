@@ -38,14 +38,45 @@ public class PostService {
             throw new RuntimeException("an error occur while saving an entry",e);
         }
     }
-
+    @Transactional
     public void deleteUserById(String id, String name) {
-        User myuser = userService.findByName(name);
-        myuser.getPosts().removeIf(x ->x.getId().equals(id));
-        userService.createUser(myuser);
-        postRepo.deleteById(id);
+      try {
+          User myuser = userService.findByName(name);
+          boolean b = myuser.getPosts().removeIf(x -> x.getId().equals(id));
+          if (b) {
+              userService.createUser(myuser);
+              postRepo.deleteById(id);
+          }
+      }catch (Exception e){
+
+          System.out.println(e);
+          throw new RuntimeException("Error occur while delete post",e);
+      }
+
     }
 
+    @Transactional
+    public Posts updatePost(String id, Posts newPost, String username) {
+        try {
+            User user = userService.findByName(username);
+            Optional<Posts> existingPostOpt = postRepo.findById(id);
 
-
+            if (existingPostOpt.isPresent()) {
+                Posts existingPost = existingPostOpt.get();
+                if (user.getPosts().contains(existingPost)) {
+                    existingPost.setTitle(newPost.getTitle() != null && !newPost.getTitle().isEmpty() ? newPost.getTitle() : existingPost.getTitle());
+                    existingPost.setContent(newPost.getContent() != null && !newPost.getContent().isEmpty() ? newPost.getContent() : existingPost.getContent());
+                    existingPost.setImgUrl(newPost.getImgUrl() != null && !newPost.getImgUrl().isEmpty() ? newPost.getImgUrl() : existingPost.getImgUrl());
+                    return postRepo.save(existingPost);
+                } else {
+                    throw new RuntimeException("Post does not belong to the user");
+                }
+            } else {
+                throw new RuntimeException("Post not found");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new RuntimeException("An error occurred while updating the post", e);
+        }
+}
 }

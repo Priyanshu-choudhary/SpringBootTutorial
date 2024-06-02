@@ -48,7 +48,7 @@ public class userController {
             userIndb.setName(user.getName());
             userIndb.setPassword(user.getPassword());
         }
-        userService.createUser(userIndb);
+        userService.createNewUser(userIndb);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
